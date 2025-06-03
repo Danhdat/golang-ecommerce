@@ -139,7 +139,8 @@ https://templatemo.com/tm-559-zay-shop
             </div>
             <form action="/products/search" method="get" class="modal-content modal-body border-0 p-0">
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ..." value="{{ .SearchKeyword }}">
+                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ..."
+                        value="{{ .SearchKeyword }}">
                     <button type="submit" class="input-group-text bg-success text-light">
                         <i class="fa fa-fw fa-search text-white"></i>
                     </button>
@@ -213,10 +214,13 @@ https://templatemo.com/tm-559-zay-shop
                     </div>
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
-                            <select class="form-control">
+                            <select class="form-control" id="productFilter" onchange="filterProducts(this.value)">
                                 <option>Featured</option>
-                                <option>A to Z</option>
-                                <option>Item</option>
+                                <option value="/products/filter?price=under100k">Dưới 100k</option>
+                                <option value="/products/filter?price=100k-200k">100k - 200k </option>
+                                <option value="/products/filter?price=over200k">Trên 200k </option>
+                                <option value="/products/filter?sort=price_asc">Giá tăng dần </option>
+                                <option value="/products/filter?sort=price_desc">Giá giảm dần </option>
                             </select>
                         </div>
                     </div>
@@ -519,6 +523,11 @@ https://templatemo.com/tm-559-zay-shop
     <script src="{{ .BaseURL }}assets/js/bootstrap.bundle.min.js"></script>
     <script src="{{ .BaseURL }}assets/js/templatemo.js"></script>
     <script src="{{ .BaseURL }}assets/js/custom.js"></script>
+    <script>
+        function filterProducts(url) {
+            if (url) window.location.href = url;
+        }
+    </script>
     <!-- End Script -->
 </body>
 

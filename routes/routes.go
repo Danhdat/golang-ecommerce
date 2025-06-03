@@ -80,4 +80,36 @@ func RegisterRoutes(router *gin.Engine) {
 		})
 	})
 
+	// Lọc sản phẩm theo giá
+	router.GET("/products/filter", func(c *gin.Context) {
+		sortBy := c.DefaultQuery("sort", "")      // price_asc, price_desc, name_asc, newest
+		priceRange := c.DefaultQuery("price", "") // under100k, 100k-200k, over200k
+		categoryID := c.Query("category")         // Optional: filter by category too
+
+		products, err := controllers.GetProducts()
+
+		// Nếu có category filter
+		if categoryID != "" {
+			products, err = controllers.FilterProductsByCategoryAndPrice(categoryID, sortBy, priceRange)
+		} else {
+			products, err = controllers.FilterProductsByPrice(sortBy, priceRange)
+		}
+
+		if err != nil {
+			c.JSON(500, gin.H{"error": "Lỗi khi lọc sản phẩm"})
+			return
+		}
+
+		// Lấy tất cả categories cho sidebar
+		allCategories, _ := controllers.GetCategories()
+
+		c.HTML(200, "shop.html", gin.H{
+			"Products":          products,
+			"Categories":        allCategories,
+			"CurrentSort":       sortBy,
+			"CurrentPriceRange": priceRange,
+			"BaseURL":           "/",
+		})
+	})
+
 }
