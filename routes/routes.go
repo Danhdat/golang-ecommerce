@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	controllers "store1/controller"
 
 	"github.com/gin-gonic/gin"
@@ -57,6 +58,7 @@ func RegisterRoutes(router *gin.Engine) {
 			"Products":       products,
 			"Categories":     allCategories,
 			"ActiveCategory": categoryName,
+			"CategoryID":     id,
 			"BaseURL":        "/",
 		})
 	})
@@ -86,11 +88,18 @@ func RegisterRoutes(router *gin.Engine) {
 		priceRange := c.DefaultQuery("price", "") // under100k, 100k-200k, over200k
 		categoryID := c.Query("category")         // Optional: filter by category too
 
-		products, err := controllers.GetProductsByCategoryID(categoryID)
+		var products interface{}
+		var err error
+		var activeCategory string
 
 		// Nếu có category filter
 		if categoryID != "" {
 			products, err = controllers.FilterProductsByCategoryAndPrice(categoryID, sortBy, priceRange)
+			if category, catErr := controllers.GetCategoryByID(categoryID); catErr == nil && len(category) > 0 {
+				activeCategory = category[0].Name
+			}
+			fmt.Printf("Biến được truyền: %v\n", categoryID)
+			fmt.Printf("Biến được truyền: %v\n", activeCategory)
 		} else {
 			products, err = controllers.FilterProductsByPrice(sortBy, priceRange)
 		}
@@ -106,7 +115,8 @@ func RegisterRoutes(router *gin.Engine) {
 		c.HTML(200, "shop.html", gin.H{
 			"Products":       products,
 			"Categories":     allCategories,
-			"ActiveCategory": categoryID,
+			"ActiveCategory": activeCategory,
+			"CategoryID":     categoryID,
 			"BaseURL":        "/",
 		})
 	})

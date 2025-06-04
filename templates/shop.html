@@ -216,11 +216,11 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="d-flex">
                             <select class="form-control" id="productFilter" onchange="filterProducts(this.value)">
                                 <option>Featured</option>
-                                <option value="/products/filter?category={{ .ActiveCategory.ID }}&price=under100k">Dưới 100k</option>
-                                <option value="/products/filter?category={{ .ActiveCategory.ID }}&price=100k-200k">100k - 200k </option>
-                                <option value="/products/filter?category={{ .ActiveCategory.ID }}&price=over200k">Trên 200k </option>
-                                <option value="/products/filter?category={{ .ActiveCategory.ID }}&sort=price_asc">Giá tăng dần </option>
-                                <option value="/products/filter?category={{ .ActiveCategory.ID }}&sort=price_desc">Giá giảm dần </option>
+                                <option value="/products/filter?category={{ .CategoryID  }}&price=under100k">Dưới 100k</option>
+                                <option value="/products/filter?category={{ .CategoryID }}&price=100k-200k">100k - 200k </option>
+                                <option value="/products/filter?category={{ .CategoryID }}&price=over200k">Trên 200k </option>
+                                <option value="/products/filter?category={{ .CategoryID }}&sort=price_asc">Giá tăng dần </option>
+                                <option value="/products/filter?category={{ .CategoryID }}&sort=price_desc">Giá giảm dần </option>
                             </select>
                         </div>
                     </div>
