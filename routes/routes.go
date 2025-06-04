@@ -86,7 +86,7 @@ func RegisterRoutes(router *gin.Engine) {
 		priceRange := c.DefaultQuery("price", "") // under100k, 100k-200k, over200k
 		categoryID := c.Query("category")         // Optional: filter by category too
 
-		products, err := controllers.GetProducts()
+		products, err := controllers.GetProductsByCategoryID(categoryID)
 
 		// Nếu có category filter
 		if categoryID != "" {
@@ -104,11 +104,10 @@ func RegisterRoutes(router *gin.Engine) {
 		allCategories, _ := controllers.GetCategories()
 
 		c.HTML(200, "shop.html", gin.H{
-			"Products":          products,
-			"Categories":        allCategories,
-			"CurrentSort":       sortBy,
-			"CurrentPriceRange": priceRange,
-			"BaseURL":           "/",
+			"Products":       products,
+			"Categories":     allCategories,
+			"ActiveCategory": categoryID,
+			"BaseURL":        "/",
 		})
 	})
 
