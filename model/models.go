@@ -51,8 +51,9 @@ type OrderItem struct {
 
 type Cart struct {
 	gorm.Model
-	UserID uint
-	Items  []CartItem
+	UserID    uint
+	SessionID string
+	Items     []CartItem
 }
 
 type CartItem struct {
@@ -60,6 +61,7 @@ type CartItem struct {
 	CartID    uint
 	ProductID uint
 	Quantity  int
+	Product   Product
 }
 
 type Payment struct {

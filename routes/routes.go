@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	controllers "store1/controller"
 
 	"github.com/gin-gonic/gin"
@@ -98,8 +97,7 @@ func RegisterRoutes(router *gin.Engine) {
 			if category, catErr := controllers.GetCategoryByID(categoryID); catErr == nil && len(category) > 0 {
 				activeCategory = category[0].Name
 			}
-			fmt.Printf("Biến được truyền: %v\n", categoryID)
-			fmt.Printf("Biến được truyền: %v\n", activeCategory)
+
 		} else {
 			products, err = controllers.FilterProductsByPrice(sortBy, priceRange)
 		}
@@ -120,5 +118,11 @@ func RegisterRoutes(router *gin.Engine) {
 			"BaseURL":        "/",
 		})
 	})
+
+	cartGroup := router.Group("/api/cart")
+	{
+		// GET /api/cart - Lấy giỏ hàng hiện tại
+		cartGroup.GET("", controllers.GetCart)
+	}
 
 }
